@@ -12,23 +12,12 @@ from langchain_classic.chains.combine_documents import create_stuff_documents_ch
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.messages import AIMessage, HumanMessage
 
-# Set page config
-st.set_page_config(page_title="RAG Chatbot", page_icon="🤖", layout="wide")
-
-# Sidebar for API key and instructions
-# Load Groq API key from secrets (hidden from users)
+# Load Groq API key from secrets (hidden from visitors)
 try:
     groq_api_key = st.secrets["GROQ_API_KEY"]
-except:
-    st.error("Groq API key not found. Please contact the owner.")
+except Exception:
+    st.error("⚠️ Groq API key not configured. Please contact the site owner.")
     st.stop()
-
-st.sidebar.markdown("""
-- **General Chat**: Start chatting immediately with the AI.
-- **RAG Chat**: Upload files (PDF, TXT, CSV, DOCX, etc.) and index them to query your data.
-- **Note**: For PDFs, ensure Poppler is installed and in PATH. Alternatively, use TXT or DOCX files.
-- **Troubleshooting**: If answers are "I don't know," check if files loaded correctly or try more specific questions.
-""")
 
 # Main title
 st.title("Book of Revelation - Chapter 1 AI Assistant")
