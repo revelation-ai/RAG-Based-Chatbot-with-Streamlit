@@ -64,7 +64,7 @@ if "messages" not in st.session_state:
 
 # Use Groq (fast & free tier)
 llm = ChatGroq(
-    model="llama3-8b-8192",
+    model="llama-3.1-8b-instant",   # Larger context window (128k tokens)
     temperature=0.3,
     groq_api_key=groq_api_key
 )
@@ -83,14 +83,14 @@ retriever = vectorstore.as_retriever(search_kwargs={"k": 4})
 
 # Strong instruction so the bot stays ONLY in your Chapter 1
 # Strong system prompt - must include {context} for stuff chain
-system_prompt = """You are a helpful assistant for Chapter 1 of my Book of Revelation.
+system_prompt = """You are a helpful assistant for Chapter 1 of the Book of Revelation.
 
-Use the following pieces of context to answer the question:
+Context from Chapter 1:
 {context}
 
-Answer EVERY question using ONLY the information from the above context (which comes from Chapter 1).
-If the answer is not mentioned in the context, simply reply: "This is not mentioned in Chapter 1."
-Do not add any outside knowledge or information from other chapters."""
+Answer the question using ONLY the above context.
+If the answer is not in the context, reply exactly: "This is not mentioned in Chapter 1."
+Keep answers short and direct."""
 
 prompt = ChatPromptTemplate.from_messages([
     ("system", system_prompt),
