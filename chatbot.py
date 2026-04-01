@@ -72,7 +72,9 @@ llm = ChatGroq(
 # Create vector store from your Chapter 1
 @st.cache_resource
 def create_vectorstore():
-    embeddings = OpenAIEmbeddings()
+    # Use a free local embedding model (no API key needed)
+    from langchain_huggingface import HuggingFaceEmbeddings
+    embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
     vectorstore = FAISS.from_documents(texts, embeddings)
     return vectorstore
 
