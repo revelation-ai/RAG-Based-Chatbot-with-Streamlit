@@ -6,3 +6,4 @@ langchain-openai
 faiss-cpu
 langchain-classic
 langchain-huggingface
+sentence-transformers
