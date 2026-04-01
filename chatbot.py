@@ -82,12 +82,16 @@ vectorstore = create_vectorstore()
 retriever = vectorstore.as_retriever(search_kwargs={"k": 4})
 
 # Strong instruction so the bot stays ONLY in your Chapter 1
+# Strong system prompt - must include {context} for stuff chain
 system_prompt = """You are a helpful assistant for Chapter 1 of my Book of Revelation.
-Answer EVERY question using ONLY the information from the provided Chapter 1 text.
-If the answer is not mentioned in Chapter 1, simply reply: "This is not mentioned in Chapter 1."
+
+Use the following pieces of context to answer the question:
+{context}
+
+Answer EVERY question using ONLY the information from the above context (which comes from Chapter 1).
+If the answer is not mentioned in the context, simply reply: "This is not mentioned in Chapter 1."
 Do not add any outside knowledge or information from other chapters."""
 
-# Build the RAG chain
 prompt = ChatPromptTemplate.from_messages([
     ("system", system_prompt),
     MessagesPlaceholder("chat_history"),
