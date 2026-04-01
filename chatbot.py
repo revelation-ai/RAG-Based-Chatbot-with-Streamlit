@@ -16,12 +16,11 @@ from langchain_core.messages import AIMessage, HumanMessage
 st.set_page_config(page_title="RAG Chatbot", page_icon="🤖", layout="wide")
 
 # Sidebar for API key and instructions
-st.sidebar.title("Settings")
-groq_api_key = st.sidebar.text_input("Groq API Key (free at groq.com)", type="password")
-if groq_api_key:
-    os.environ["GROQ_API_KEY"] = groq_api_key
-else:
-    st.sidebar.warning("Please enter your Groq API Key to start chatting.")
+# Load Groq API key from secrets (hidden from users)
+try:
+    groq_api_key = st.secrets["GROQ_API_KEY"]
+except:
+    st.error("Groq API key not found. Please contact the owner.")
     st.stop()
 
 st.sidebar.markdown("""
